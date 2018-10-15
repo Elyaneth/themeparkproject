@@ -66,9 +66,9 @@ class App extends React.Component {
         <tbody>
           <tr onClick={this.onClick.bind(this,0)}>
             <th scope="row">1</th>
-            <td>Mark</td>
+            <td>Mark {this.state.showItems[0] ? <div><br></br> bla <br></br> bli <br></br> blu </div>: null} </td>
           </tr>
-          {this.state.showItems[0] ? <tr><th></th> <td>bla <br></br> bli <br></br> blu</td> </tr> : null} 
+          
 
           <tr>
             <th scope="row">2</th>
