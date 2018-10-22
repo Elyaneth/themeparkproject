@@ -7,7 +7,8 @@ import {
   Button,
   ListGroup, 
   ListGroupItem,
-  Table
+  Table,
+  Alert
 } from 'reactstrap';
 import myData from './attraction.json';
 import saveAs from 'file-saver';
@@ -25,7 +26,10 @@ class attraction extends React.Component {
       price: "",
       inst: "",
 
-      adding: ""
+      adding: "",
+
+      i: 0,
+      j:0
 
     };
 
@@ -60,10 +64,14 @@ class attraction extends React.Component {
   }
   
   handleSubmit(event) {
-    alert('Vous avez recherché: ' + this.state.value +'\n Si rien ne se passe, la recherche n as rien trouvée');
+    alert('Vous avez recherché: ' + this.state.value );
     event.preventDefault();
 
+    this.state.i = 0;
+    this.state.j = 0;
+
     myData.map((attractionDetail) => {
+      this.state.i ++;
       if(attractionDetail.name.startsWith(this.state.value))
       {
         const element = 
@@ -77,7 +85,13 @@ class attraction extends React.Component {
 
         this.setState({searchResult: element});
       }
-    })    
+      else { this.state.j++;}
+    })
+    
+    if (this.state.i == this.state.j)
+    {
+      alert('Désolé, la recherche sur: ' + this.state.value + " n'as pas trouvé d'élements correspondant" );
+    } 
   }
 
   onClick(index) {
@@ -146,10 +160,10 @@ class attraction extends React.Component {
 
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="Search"><b> Recherche: </b></Label>
+            <Alert color="primary"> Recherche: </Alert>
             <Input type="text" name="Search" id="search" value={this.state.value} onChange={this.handleChange} placeholder="Recherchez un nom ici"/>
-            <Button>Submit</Button>
-          </FormGroup>
+            </FormGroup>
+            <Button color="primary">Submit</Button>
         </Form>
 
         <br></br>
@@ -158,6 +172,7 @@ class attraction extends React.Component {
 
         <br></br>
 
+        <Alert color="primary"> Informations: </Alert>
         <Table hover>
           <thead>
             <tr>
@@ -180,7 +195,8 @@ class attraction extends React.Component {
         </Table>
 
         <br></br>
-        <b> Ajouter une attraction </b>
+        <Alert color="primary"> Ajouter une attraction: </Alert>
+
 
         <Form onSubmit={this.handleAdd}>
         <FormGroup>
@@ -199,7 +215,7 @@ class attraction extends React.Component {
           <Label for="installationdate">Date d'installation (veuillez utiliser le format dd/mm/yyyy)</Label>
           <Input type="text" name="installationdate"  value={this.state.inst} onChange={this.handleInstChange} placeholder="Date d'installation de l'attraction" />
         </FormGroup>
-        <Button>Submit</Button>
+        <Button color="primary">Submit</Button>
       </Form>
             
       <br></br>      

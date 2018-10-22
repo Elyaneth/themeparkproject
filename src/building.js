@@ -7,7 +7,8 @@ import {
   Button,
   ListGroup, 
   ListGroupItem,
-  Table
+  Table,
+  Alert
 } from 'reactstrap';
 import myData from './building.json';
 import saveAs from 'file-saver';
@@ -24,7 +25,10 @@ class building extends React.Component {
       name: "",
       inst: "",
 
-      adding: ""
+      adding: "",
+
+      i: 0,
+      j:0
 
     };
 
@@ -53,10 +57,11 @@ class building extends React.Component {
   }
   
   handleSubmit(event) {
-    alert('Vous avez recherché: ' + this.state.value +'\n Si rien ne se passe, la recherche n as rien trouvée');
+    alert('Vous avez recherché: ' + this.state.value );
     event.preventDefault();
 
     myData.map((buildingDetail) => {
+      this.state.i ++;
       if(buildingDetail.name.startsWith(this.state.value))
       {
         const element = 
@@ -69,7 +74,14 @@ class building extends React.Component {
 
         this.setState({searchResult: element});
       }
-    })    
+      else { this.state.j++;}
+    })
+    
+    
+    if (this.state.i == this.state.j)
+    {
+      alert('Désolé, la recherche sur: ' + this.state.value + " n'as pas trouvé d'élements correspondant" );
+    } 
   }
 
   onClick(index) {
@@ -127,10 +139,11 @@ class building extends React.Component {
 
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="Search"><b> Recherche: </b></Label>
+          <Alert color="primary"> Recherche: </Alert>
             <Input type="text" name="Search" id="search" value={this.state.value} onChange={this.handleChange} placeholder="Recherchez un nom ici"/>
-            <Button>Submit</Button>
-          </FormGroup>
+            </FormGroup>
+          <Button color="primary">Submit</Button>
+
         </Form>
 
         <br></br>
@@ -139,6 +152,7 @@ class building extends React.Component {
 
         <br></br>
 
+        <Alert color="primary"> Informations: </Alert>
         <Table hover>
           <thead>
             <tr>
@@ -161,7 +175,7 @@ class building extends React.Component {
         </Table>
 
       <br></br>
-        <b> Ajouter un batiment </b>
+      <Alert color="primary"> Ajouter un batiment: </Alert>
 
         <Form onSubmit={this.handleAdd}>
         <FormGroup>
@@ -176,7 +190,7 @@ class building extends React.Component {
           <Label for="installationdate">Date d'installation (veuillez utiliser le format dd/mm/yyyy)</Label>
           <Input type="text" name="installationdate"  value={this.state.inst} onChange={this.handleInstChange} placeholder="Date d'installation du batiment" />
         </FormGroup>
-        <Button>Submit</Button>
+        <Button color="primary">Submit</Button>
       </Form>
             
       <br></br> 

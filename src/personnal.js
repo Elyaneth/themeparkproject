@@ -7,7 +7,8 @@ import {
   Button,
   ListGroup, 
   ListGroupItem,
-  Table
+  Table,
+  Alert
 } from 'reactstrap';
 import myData from './personnal.json';
 import saveAs from 'file-saver';
@@ -27,7 +28,10 @@ class personnal extends React.Component {
       function: "",
       price: "",
 
-      adding: ""
+      adding: "",
+
+      i: 0,
+      j:0
 
     };
 
@@ -72,10 +76,11 @@ class personnal extends React.Component {
   }
   
   handleSubmit(event) {
-    alert('Vous avez recherché: ' + this.state.value +'\n Si rien ne se passe, la recherche n as rien trouvée');
+    alert('Vous avez recherché: ' + this.state.value );
     event.preventDefault();
 
     myData.map((personDetail) => {
+      this.state.i ++;
       if(personDetail.name.startsWith(this.state.value))    
       {
         const element = 
@@ -91,7 +96,13 @@ class personnal extends React.Component {
 
         this.setState({searchResult: element});
       }
-    })    
+      else { this.state.j++;}
+    })  
+    
+    if (this.state.i == this.state.j)
+    {
+      alert('Désolé, la recherche sur: ' + this.state.value + " n'as pas trouvé d'élements correspondant" );
+    } 
   }
 
   onClick(index) {
@@ -169,10 +180,10 @@ class personnal extends React.Component {
 
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="Search"><b> Recherche: </b></Label>
+          <Alert color="primary"> Recherche: </Alert>
             <Input type="text" name="Search" id="search" value={this.state.value} onChange={this.handleChange} placeholder="Recherchez un nom ici"/>
-            <Button>Submit</Button>
-          </FormGroup>
+            </FormGroup>
+          <Button color="primary">Submit</Button>
         </Form>
 
         <br></br>
@@ -181,6 +192,7 @@ class personnal extends React.Component {
 
         <br></br>
 
+        <Alert color="primary"> Informations: </Alert>
         <Table hover>
           <thead>
             <tr>
@@ -203,7 +215,7 @@ class personnal extends React.Component {
         </Table>
 
         <br></br>
-        <b> Ajouter un employé </b>
+        <Alert color="primary"> Ajouter un employé: </Alert>
 
         <Form onSubmit={this.handleAdd}>
         <FormGroup>
@@ -230,7 +242,7 @@ class personnal extends React.Component {
           <Label for="price">Salaire </Label>
           <Input type="text" name="price" value={this.state.price} onChange={this.handlePriceChange} placeholder="Salaire de l'employé" />
         </FormGroup>
-        <Button>Submit</Button>
+        <Button color="primary">Submit</Button>
       </Form>
             
       <br></br>  

@@ -7,7 +7,8 @@ import {
   Button,
   ListGroup, 
   ListGroupItem,
-  Table
+  Table,
+  Alert
 } from 'reactstrap';
 import myData from './maintainance.json';
 import saveAs from 'file-saver';
@@ -26,7 +27,11 @@ class maintainance extends React.Component {
       att: "",
       emp: "",
 
-      adding: ""
+      adding: "",
+      
+
+      i: 0,
+      j:0
 
     };
 
@@ -66,10 +71,11 @@ class maintainance extends React.Component {
   }
   
   handleSubmit(event) {
-    alert('Vous avez recherché: ' + this.state.value +'\n Si rien ne se passe, la recherche n as rien trouvée');
+    alert('Vous avez recherché: ' + this.state.value );
     event.preventDefault();
 
     myData.map((maintainanceDetail) => {
+      this.state.i ++;
       if(maintainanceDetail.nextMaintainance.startsWith(this.state.value))
       {
         const element = 
@@ -84,7 +90,13 @@ class maintainance extends React.Component {
 
         this.setState({searchResult: element});
       }
-    })    
+      else { this.state.j++;}
+    })  
+    
+    if (this.state.i == this.state.j)
+    {
+      alert('Désolé, la recherche sur: ' + this.state.value + " n'as pas trouvé d'élements correspondant" );
+    }   
   }
 
   onClick(index) {
@@ -155,10 +167,10 @@ class maintainance extends React.Component {
 
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
-            <Label for="Search"><b> Recherche: </b></Label>
+            <Alert color="primary"> Recherche: </Alert>
             <Input type="text" name="Search" id="search" value={this.state.value} onChange={this.handleChange} placeholder="Recherchez un nom ici"/>
-            <Button>Submit</Button>
-          </FormGroup>
+            </FormGroup>
+          <Button color="primary">Submit</Button>
         </Form>
 
         <br></br>
@@ -167,6 +179,7 @@ class maintainance extends React.Component {
 
         <br></br>
 
+        <Alert color="primary"> Informations: </Alert>
         <Table hover>
           <thead>
             <tr>
@@ -189,7 +202,7 @@ class maintainance extends React.Component {
         </Table>
 
       <br></br>
-        <b> Ajouter une maintenance </b>
+      <Alert color="primary"> Ajouter une maintenance: </Alert>
 
         <Form onSubmit={this.handleAdd}>
         <FormGroup>
@@ -212,7 +225,7 @@ class maintainance extends React.Component {
           <Label for="name">Employé</Label>
           <Input type="text" name="employee" value={this.state.emp} onChange={this.handleEmpChange} placeholder="Nom de l'employé" />
         </FormGroup>
-        <Button>Submit</Button>
+        <Button color="primary">Submit</Button>
       </Form>
             
       <br></br>  
