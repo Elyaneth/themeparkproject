@@ -10,7 +10,6 @@ import Attraction from './attraction.js';
 import Building from './building.js';
 import Personnal from './personnal.js';
 import Maintainance from './maintainance.js';
-import classnames from 'classnames';
 
 class App extends React.Component {
   constructor(props) {
@@ -89,25 +88,3 @@ class App extends React.Component {
 }
 
 export default App;
-/*
-
-
-
-      <br></br>      <br></br>
-      <br></br>      <br></br>
-
-      <Attraction />
-      <br></br>      <br></br>
-      <br></br>      <br></br>
-
-      < Building />
-      <br></br>      <br></br>
-      <br></br>      <br></br>
-
-      < Personnal />
-
-      <br></br>      <br></br>
-      <br></br>      <br></br>
-
-      < Maintainance />
-*/

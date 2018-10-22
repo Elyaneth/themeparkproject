@@ -10,6 +10,7 @@ import {
   Table
 } from 'reactstrap';
 import myData from './maintainance.json';
+import saveAs from 'file-saver';
 
 class maintainance extends React.Component {
   constructor(props) {
@@ -17,16 +18,51 @@ class maintainance extends React.Component {
 
     this.state = {
       showItems: [],
-      value: "Recherchez une date ici",
-      searchResult: ""
+      value: "",
+      searchResult: "",
+      id: "",
+      last: "",
+      next: "",
+      att: "",
+      emp: "",
+
+      adding: ""
+
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleIdChange = this.handleIdChange.bind(this);
+    this.handleLastChange = this.handleLastChange.bind(this);
+    this.handleNextChange = this.handleNextChange.bind(this);
+    this.handleAttChange = this.handleAttChange.bind(this);
+    this.handleEmpChange = this.handleEmpChange.bind(this);
+
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
   handleChange(event) {
     this.setState({value: event.target.value});
+  }
+
+  handleIdChange(event) {
+    this.setState({id: event.target.value});
+  }
+  
+  handleLastChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  handleNextChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  handleAttChange(event) {
+    this.setState({name: event.target.value});
+  }
+
+  handleEmpChange(event) {
+    this.setState({name: event.target.value});
   }
   
   handleSubmit(event) {
@@ -57,6 +93,58 @@ class maintainance extends React.Component {
     this.setState({ showItems });
   }
   
+  handleAdd(event) {
+    alert('Vous avez ajouté: ' + this.state.id +' '+ this.state.name +' '+ this.state.price +' '+ this.state.inst  );
+    event.preventDefault();
+
+
+    this.state.adding = "";
+
+    {myData.map((add) => {
+      this.state.adding += ('{');
+      this.state.adding+=('"id": ');
+      this.state.adding+=(add.id);
+      this.state.adding+=(',');
+      this.state.adding+=('"lastMaintainance": ');
+      this.state.adding+=(add.last);
+      this.state.adding+=(',');
+      this.state.adding+=('"nextMaintainance": ');
+      this.state.adding+=(add.next);
+      this.state.adding+=(',');
+      this.state.adding+=('"attraction": ');
+      this.state.adding+=(add.att);
+      this.state.adding+=(',');
+      this.state.adding+=('"personnal": ');
+      this.state.adding+=(add.emp);
+      this.state.adding+=('},');
+    })}
+
+    //add the new thing
+    this.state.adding += ('{');
+    this.state.adding+=('"id": ');
+      this.state.adding+=(this.state.id);
+      this.state.adding+=(',');
+      this.state.adding+=('"lastMaintainance": ');
+      this.state.adding+=(this.state.last);
+      this.state.adding+=(',');
+      this.state.adding+=('"nextMaintainance": ');
+      this.state.adding+=(this.state.next);
+      this.state.adding+=(',');
+      this.state.adding+=('"attraction": ');
+      this.state.adding+=(this.state.att);
+      this.state.adding+=(',');
+      this.state.adding+=('"personnal": ');
+      this.state.adding+=(this.state.emp);
+      this.state.adding+=('}');
+
+
+    //alert(this.state.adding);
+
+    const adder = ("[" + this.state.adding + "]");
+  
+    var blob = new Blob([adder], {type: "application/json"});
+    saveAs(blob, "maintainance.json");
+  }
 
   render() {
     return (
@@ -68,7 +156,7 @@ class maintainance extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           <FormGroup>
             <Label for="Search"><b> Recherche: </b></Label>
-            <Input type="text" name="Search" id="search" value={this.state.value} onChange={this.handleChange} />
+            <Input type="text" name="Search" id="search" value={this.state.value} onChange={this.handleChange} placeholder="Recherchez un nom ici"/>
             <Button>Submit</Button>
           </FormGroup>
         </Form>
@@ -100,7 +188,35 @@ class maintainance extends React.Component {
           </tbody>
         </Table>
 
+      <br></br>
+        <b> Ajouter une maintenance </b>
+
+        <Form onSubmit={this.handleAdd}>
+        <FormGroup>
+          <Label for="id">Id (veuillez ne pas utiliser un id déjà enregistré)</Label>
+          <Input type="text" name="id" value={this.state.id} onChange={this.handleIdChange} placeholder="Id de la maintenance" />
+        </FormGroup>
+        <FormGroup>
+          <Label for="name">Dernière maintenance (veuillez utiliser le format dd/mm/yyyy)</Label>
+          <Input type="text" name="last" value={this.state.last} onChange={this.handleLastChange} placeholder="Date de la dernière maintenance" />
+        </FormGroup>
+        <FormGroup>
+          <Label for="name">Prochaine maintenance (veuillez utiliser le format dd/mm/yyyy)</Label>
+          <Input type="text" name="next" value={this.state.next} onChange={this.handleNextChange} placeholder="Date de la prochaine maintenance" />
+        </FormGroup>
+        <FormGroup>
+          <Label for="name">Attraction</Label>
+          <Input type="text" name="attraction" value={this.state.att} onChange={this.handleAttChange} placeholder="Nom de l'attraction" />
+        </FormGroup>
+        <FormGroup>
+          <Label for="name">Employé</Label>
+          <Input type="text" name="employee" value={this.state.emp} onChange={this.handleEmpChange} placeholder="Nom de l'employé" />
+        </FormGroup>
+        <Button>Submit</Button>
+      </Form>
             
+      <br></br>  
+
       </div>
       </div>
     );

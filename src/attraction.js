@@ -10,6 +10,7 @@ import {
   Table
 } from 'reactstrap';
 import myData from './attraction.json';
+import saveAs from 'file-saver';
 
 class attraction extends React.Component {
   constructor(props) {
@@ -22,7 +23,9 @@ class attraction extends React.Component {
       id: "",
       name: "",
       price: "",
-      inst: ""
+      inst: "",
+
+      adding: ""
 
     };
 
@@ -33,6 +36,7 @@ class attraction extends React.Component {
     this.handleInstChange = this.handleInstChange.bind(this);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
   handleChange(event) {
@@ -82,6 +86,57 @@ class attraction extends React.Component {
     this.setState({ showItems });
   }
 
+  handleAdd(event) {
+    alert('Vous avez ajouté: ' + this.state.id +' '+ this.state.name +' '+ this.state.price +' '+ this.state.inst  );
+    event.preventDefault();
+
+    const str = JSON.stringify({ id: this.state.id,
+      name: this.state.name,
+      price: this.state.price,
+      installationdate: this.state.inst  
+    });
+
+    this.state.adding = "";
+
+    {myData.map((add) => {
+      this.state.adding += ('{');
+      this.state.adding+=('"id": ');
+      this.state.adding+=(add.id);
+      this.state.adding+=(',');
+      this.state.adding+=('"name": ');
+      this.state.adding+=(add.name);
+      this.state.adding+=(',');
+      this.state.adding+=('"price": ');
+      this.state.adding+=(add.price);
+      this.state.adding+=(',');
+      this.state.adding+=('"installationdate": ');
+      this.state.adding+=(add.installationdate);
+      this.state.adding+=('},');
+    })}
+
+    //add the new thing
+    this.state.adding += ('{');
+      this.state.adding+=('"id": ');
+      this.state.adding+=(this.state.id);
+      this.state.adding+=(',');
+      this.state.adding+=('"name": ');
+      this.state.adding+=(this.state.name);
+      this.state.adding+=(',');
+      this.state.adding+=('"price": ');
+      this.state.adding+=(this.state.price);
+      this.state.adding+=(',');
+      this.state.adding+=('"installationdate": ');
+      this.state.adding+=(this.state.inst);
+      this.state.adding+=('}');
+
+
+    //alert(this.state.adding);
+
+    const adder = ("[" + this.state.adding + "]");
+  
+    var blob = new Blob([adder], {type: "application/json"});
+    saveAs(blob, "attraction.json");
+  }
   
   render() {
     return (
@@ -127,7 +182,7 @@ class attraction extends React.Component {
         <br></br>
         <b> Ajouter une attraction </b>
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleAdd}>
         <FormGroup>
           <Label for="id">Id (veuillez ne pas utiliser un id déjà enregistré)</Label>
           <Input type="text" name="id" value={this.state.id} onChange={this.handleIdChange} placeholder="Id de l'attraction" />
