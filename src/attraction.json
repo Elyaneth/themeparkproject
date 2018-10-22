@@ -1,0 +1,14 @@
+[ 
+    {
+        "id": 1,
+        "name": "Mery go round",
+        "price": "10 000$$$$",
+        "installationdate":"01/02/1999"
+    },
+    {
+        "id": 2,
+        "name": "bob",
+        "price": "2 cents",
+        "installationdate":"25/12/2015"
+    }
+]

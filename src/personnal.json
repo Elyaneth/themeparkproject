@@ -1,0 +1,19 @@
+[ 
+    {
+        "id": 1,
+        "name": "Ross",
+        "surname" :"Bob",
+        "age" :"66",
+        "function" :"Peintre", 
+        "salary" : "2$/month"
+    },
+    {
+        "id": 2,
+        "name": "Star",
+        "surname" :"Patrick",
+        "age" :"31",
+        "function" :"Mascotte", 
+        "salary" : "2123$/month"
+    }
+
+]

@@ -1,0 +1,12 @@
+[ 
+    {
+        "id": 1,
+        "name": "Offices",
+        "installationdate":"16/06/2001"
+    },
+    {
+        "id": 2,
+        "name": "Canteen",
+        "installationdate":"25/01/1990"
+    }
+]

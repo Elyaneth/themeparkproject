@@ -4,82 +4,84 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink} from 'reactstrap';
-
-import { Table } from 'reactstrap';
+  NavLink
+} from 'reactstrap';
+import Attraction from './attraction.js';
+import Building from './building.js';
+import Personnal from './personnal.js';
+import Maintainance from './maintainance.js';
+import classnames from 'classnames';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false,
-      showItems:[]
+      page : "attraction"
     };
+
+    this.renderSwitch = this.renderSwitch.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
-  onClick(index){
-    let showItems = this.state.showItems.slice(0);
-    showItems[index] = !showItems[index];
-    this.setState({showItems});
+  renderSwitch(param) {
+    switch(param) {
+      case 'attraction':
+        return <Attraction />;
+        case 'building':
+        return <Building />;
+        case 'personnal':
+        return <Personnal />;
+        case 'maintainance':
+        return <Maintainance />;
+      default:
+        return <Attraction />;
+    }
   }
 
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+  onClick(event) {
+    event.preventDefault();
+
+    switch(event.target.href) {
+      case 'http://localhost:3000/attraction/':
+        return this.setState({page: "attraction"});
+      case 'http://localhost:3000/batiment/':
+        return this.setState({page: "building"});
+      case 'http://localhost:3000/personnel/':
+        return this.setState({page:"personnal"});
+      case 'http://localhost:3000/maintenance/':
+        return this.setState({page: "maintainance"});
+      default:
+        return this.setState({page: "attraction"});
+    }
+    
   }
+
   render() {
     return (
       <div>
         <Navbar color="dark" dark expand="md">
           <NavbarBrand href="/">Outil de Managment</NavbarBrand>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/attraction/" active="true">Attraction</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/batiments/">Batiments</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/personnel/">Personnel</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/maintenance/">Maintenance</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/statistiques/">Statistiques</NavLink>
-              </NavItem>
-            </Nav>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink id='1' href="/attraction/" value="attraction" onClick={this.onClick} active="true">Attraction</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/batiment/" value="building" onClick={this.onClick}>Batiments</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/personnel/" value="personnal" onClick={this.onClick}>Personnel</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/maintenance/" value="maintainance" onClick={this.onClick}>Maintenance</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/statistiques/" value="stats" onClick={this.onClick}>Statistiques</NavLink>
+            </NavItem>
+          </Nav>
         </Navbar>
 
-
-
-        <Table hover>
-        <thead>
-          <tr>
-            <th>#id</th>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr onClick={this.onClick.bind(this,0)}>
-            <th scope="row">1</th>
-            <td>Mark {this.state.showItems[0] ? <div><br></br> bla <br></br> bli <br></br> blu </div>: null} </td>
-          </tr>
-          
-
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-          </tr>
-        </tbody>
-      </Table>
+        {this.renderSwitch(this.state.page)}
 
       </div>
     );
@@ -87,3 +89,25 @@ class App extends React.Component {
 }
 
 export default App;
+/*
+
+
+
+      <br></br>      <br></br>
+      <br></br>      <br></br>
+
+      <Attraction />
+      <br></br>      <br></br>
+      <br></br>      <br></br>
+
+      < Building />
+      <br></br>      <br></br>
+      <br></br>      <br></br>
+
+      < Personnal />
+
+      <br></br>      <br></br>
+      <br></br>      <br></br>
+
+      < Maintainance />
+*/

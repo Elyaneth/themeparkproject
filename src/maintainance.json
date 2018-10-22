@@ -1,0 +1,16 @@
+[ 
+    {
+        "id": 1,
+        "lastMaintainance": "during the stone age",
+        "nextMaintainance":"31/12/2020",
+        "attraction":"Merry go round",
+        "personnal":"Bob"
+    },
+    {
+        "id": 2,
+        "lastMaintainance": "01/01/2001",
+        "nextMaintainance":"01/01/2031",
+        "attraction":"Merry go round",
+        "personnal":"Patrick"
+    }
+]
